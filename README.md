@@ -1,18 +1,18 @@
-### Jak to wszystko działa?
+# Jak to wszystko działa?
 
 ## Zadania z C++:  
 Konkretne komentarze dotyczące poszczególnych części programu są w komentarzach w samych plikach .cpp lub .h, tutaj tylko wytłumacze ogólny sposób myślenia oraz algorytmy stosowane w rozwiązaniu zadań.  
-# Zadanie 1 - Otoczka  
+### Zadanie 1 - Otoczka  
 "Znajdź najmniejszy (najmniej liczny) podzbiór takich punktów, które otaczają wszystkie inne punkty."  
 Do realizacji tego zadania użyłem algorytm ["quickhull"](https://en.wikipedia.org/wiki/Quickhull) (metoda "dziel i zwyciężaj").  
 W zasadzie to jest po prostu quicksort na płaszczyźnie 2D. Szukamy skrajne 2 punkty które na pewno są na otoczce (lewy i prawy lub górny i dolny), nazwijmy je A i B. Potem dzielimy reszte punktów na te po jednej oraz drugiej stronie odcinka wyznaczonego przez te punkty. Po kazdej stronie szukamy punkt C najdalszy od odcinka AB (C dodajemy do otoczki). Powstaje trójkąt ABC w środku którego punkty można pominąć. Powtarzamy wszystko, tylko że zamiast odcinka AB bierzamy odcinki AC, CB. Dostajemy nowe najdalsze punkty itd. dopóki nie zostanie żaden punkt.  
 Zapisuję punkty otoczki w vector<Punkt>. Sortuję go tak, żeby sąsiadujące punkty otoczki były obok siebie w wektorze (raczej w takiej kolejności będą wpisywane do wektora, ale lepiej się upewnić), ponieważ to znacznie ułatwi zrobienie kolejnego zadania.  
   
-# Zadanie 2 - Punkty  
+### Zadanie 2 - Punkty  
 "Znajdź najbliższe (najmniej oddalone od siebie nawzajem) dwie proste równoległe takie, że wszystkie punkty w zbiorze leżą dokładnie na nich lub między nimi."  
 Można od razu zauważyć, że jak już znaleźliśmy otoczke, to ona wystarczy do zrobienia tego zadania, nie trzeba działać na całym zbiorze punktów. Jesli cała otoczka się zawiera pomiedzy prostymi, to reszta punktów też. Podszedłem do tego zadania w następujący sposób: Prostą można prosto zdefiniować przez 2 punkty, więc w tym przypadku można wziąc kolejne odcinki tworzące otoczke (pary sąsiadujących punktow w posortowanym vector<Punkt> z pierwszego zadania), znaleść najdalszy punkt od każdego odcinka, a potem policzyc odległość między tym punktem a odcinkiem. Najmniejsza taka odległość jest rozwiązaniem zadania.  
   
-# Zadanie 3 - Najbliższe punkty
+### Zadanie 3 - Najbliższe punkty
 "Znajdź dwa najbliżej siebie położone punkty w zbiorze. Skup się na osiągnięciu jak najniższej złożoności obliczeniowej."  
 Jest to [znany problem](https://en.wikipedia.org/wiki/Closest_pair_of_points_problem).  
 Tutaj, podobnie jak w zadaniu 1, użyłem metody "dziel i zwyciężaj". Sortujemy punky wg ich wartości X i bierzemy ten środkowy. Dzielimy zbiór punktow na te po lewej oraz po prawej od tej wartości. Powtarzamy rekurencyjnie dopóki nie dostaniemy max. 3 punkty po jednej stronie. W takim zbiorze szukamy najkrótszej odległosci sprawdzając ich po kolei (bruteforce). Wychodząc z rekurencji, porównujemy minimalne odległości po lewej i prawej stronie. Na koniec dostajemy odległość minimalną w lewej oraz prawej połowie zbioru punktów. Trzeba jednak sprawdzić czy akurat 2 najbliższe punkty nie są w różnych połowach zbioru (jeden po lewej a drugi po prawej). Robi się to w ten sposób, że bierzemy obecna najkrótszą długość, i uwzględniamy tylko punkty oddalone co najwyżej o tą długość od środka dzielącego zbiór na 2 części. Teraz te punkty trzeba posortować wg. ich wartości Y, a zatem dla każdego punktu sprawdzić tylko 7 najbliższych sąsiadów (jest udowodnione geometrycznie dlaczego tak jest ale nie chce mi się tutaj rozpisywać). Jest to bardzo ważne ponieważ wtedy złożóność obliczeniowa tego ostatniego kroku jest O(n), zamiast O(n^2) jeśli sprawdziamy wszystkie.  
