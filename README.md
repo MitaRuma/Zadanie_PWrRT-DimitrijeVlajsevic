@@ -6,11 +6,11 @@ Konkretne komentarze dotyczące poszczególnych części programu są w komentar
 "Znajdź najmniejszy (najmniej liczny) podzbiór takich punktów, które otaczają wszystkie inne punkty."  
 Do realizacji tego zadania użyłem algorytm ["quickhull"](https://en.wikipedia.org/wiki/Quickhull) (metoda "dziel i zwyciężaj").  
 W zasadzie to jest po prostu quicksort na płaszczyźnie 2D. Szukamy skrajne 2 punkty które na pewno są na otoczce (lewy i prawy lub górny i dolny), nazwijmy je A i B. Potem dzielimy reszte punktów na te po jednej oraz drugiej stronie odcinka wyznaczonego przez te punkty. Po kazdej stronie szukamy punkt C najdalszy od odcinka AB (C dodajemy do otoczki). Powstaje trójkąt ABC w środku którego punkty można pominąć. Powtarzamy wszystko, tylko że zamiast odcinka AB bierzamy odcinki AC, CB. Dostajemy nowe najdalsze punkty itd. dopóki nie zostanie żaden punkt.  
-Zapisuję punkty otoczki w vector<Punkt>. Sortuję go tak, żeby sąsiadujące punkty otoczki były obok siebie w wektorze (raczej w takiej kolejności będą wpisywane do wektora, ale lepiej się upewnić), ponieważ to znacznie ułatwi zrobienie kolejnego zadania.  
+Zapisuję punkty otoczki w tablicy. Sortuję ją tak, żeby sąsiadujące punkty otoczki były obok siebie (raczej i tak będą posortowane, ale lepiej się upewnić), ponieważ to znacznie ułatwi iteracje w kolejnym zadaniu.  
   
 ### Zadanie 2 - Punkty  
 "Znajdź najbliższe (najmniej oddalone od siebie nawzajem) dwie proste równoległe takie, że wszystkie punkty w zbiorze leżą dokładnie na nich lub między nimi."  
-Można od razu zauważyć, że jak już znaleźliśmy otoczke, to ona wystarczy do zrobienia tego zadania, nie trzeba działać na całym zbiorze punktów. Jesli cała otoczka się zawiera pomiedzy prostymi, to reszta punktów też. Podszedłem do tego zadania w następujący sposób: Prostą można prosto zdefiniować przez 2 punkty, więc w tym przypadku można wziąc kolejne odcinki tworzące otoczke (pary sąsiadujących punktow w posortowanym vector<Punkt> z pierwszego zadania), znaleść najdalszy punkt od każdego odcinka, a potem policzyc odległość między tym punktem a odcinkiem. Najmniejsza taka odległość jest rozwiązaniem zadania.  
+Można od razu zauważyć, że jak już znaleźliśmy otoczke, to ona wystarczy do zrobienia tego zadania, nie trzeba działać na całym zbiorze punktów. Jesli cała otoczka się zawiera pomiedzy prostymi, to reszta punktów też. Podszedłem do tego zadania w następujący sposób: Prostą można prosto zdefiniować przez 2 punkty, więc w tym przypadku można wziąc kolejne odcinki tworzące otoczke (pary sąsiadujących punktow w posortowanymi punktami z pierwszego zadania), znaleść najdalszy punkt od każdego odcinka, a potem policzyc odległość między tym punktem a odcinkiem. Najmniejsza taka odległość jest rozwiązaniem zadania.  
   
 ### Zadanie 3 - Najbliższe punkty
 "Znajdź dwa najbliżej siebie położone punkty w zbiorze. Skup się na osiągnięciu jak najniższej złożoności obliczeniowej."  
@@ -20,7 +20,7 @@ Niech T(n) to czas działania tego algorytmu dla n punktów. Wtedy rekursywna cz
   
 ## Zadanie STM32CubeIDE  
   
-Sczerze, pierwszy raz w życiu odpaliłem ten program, więc głownie się kierowałem dokumentacją czy różnymi tutorialami na youtube. Nie za bardzo byłbym w stanie teraz powtrzyć to co zrobiłem ale ważne że działa (chyba).  
+Sczerze, pierwszy raz w życiu odpaliłem ten program, więc głownie się kierowałem dokumentacją czy różnymi tutorialami na youtube. Nie za bardzo byłbym w stanie teraz powtórzyć to co zrobiłem ale ważne że działa (chyba).  
 Krok po kroku co robiłem:  
 1) Utworzenie projektu z mikrokontrolerem STM32F205RGT6  
 2) W zakładce "System core" => RCC ustawiłem HSE na "Crystal/Ceramic Resonator"  
